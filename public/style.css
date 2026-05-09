@@ -207,6 +207,18 @@ body.dark-mode .row-learned {
     box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
 }
 
+.badge-hsk {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--primary);
+    color: white;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 

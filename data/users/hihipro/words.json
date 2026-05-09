@@ -3,25 +3,36 @@
         "id": 1,
         "hanzi": "\u5bf9\u4e0d\u8d77",
         "pinyin": "Du\u00ecb\u00f9q\u01d0",
-        "meaning": "Xin l\u1ed7i"
+        "meaning": "Xin l\u1ed7i",
+        "study_count": 3,
+        "last_studied_at": "2026-05-09 11:09:48",
+        "is_learned": false
     },
     {
         "id": 2,
         "hanzi": "\u6211\u7231\u4f60",
         "pinyin": "W\u01d2 \u00e0i n\u01d0",
-        "meaning": "Anh Y\u00eau Em"
+        "meaning": "Anh Y\u00eau Em",
+        "study_count": 2,
+        "last_studied_at": "2026-05-09 11:09:47",
+        "is_learned": false
     },
     {
         "id": 3,
         "hanzi": "\u65e5\u672c",
         "pinyin": "R\u00ecb\u011bn",
-        "meaning": "Nh\u1eadt B\u1ea3n"
+        "meaning": "Nh\u1eadt B\u1ea3n",
+        "study_count": 1,
+        "last_studied_at": "2026-05-09 11:09:47",
+        "is_learned": false
     },
     {
         "id": 4,
         "hanzi": "\u82f1\u56fd",
         "pinyin": "Y\u012bnggu\u00f3",
-        "meaning": "V\u01b0\u01a1ng qu\u1ed1c Anh"
+        "meaning": "V\u01b0\u01a1ng qu\u1ed1c Anh",
+        "study_count": 1,
+        "last_studied_at": "2026-05-09 11:05:24"
     },
     {
         "id": 5,

@@ -126,6 +126,16 @@
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInput" placeholder="Tìm kiếm chữ Hán, pinyin hoặc nghĩa...">
                     </div>
+                    <select id="hskFilter" style="padding: 10px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: white; font-size: 0.9rem;">
+                        <option value="All">Tất cả HSK</option>
+                        <option value="HSK 1">HSK 1</option>
+                        <option value="HSK 2">HSK 2</option>
+                        <option value="HSK 3">HSK 3</option>
+                        <option value="HSK 4">HSK 4</option>
+                        <option value="HSK 5">HSK 5</option>
+                        <option value="HSK 6">HSK 6</option>
+                        <option value="None">Khác</option>
+                    </select>
                     <button id="openAddModalBtn" class="btn-primary"><i class="fas fa-plus"></i> Thêm Từ</button>
                 </div>
 
@@ -226,6 +236,18 @@
                 <div class="input-group">
                     <label>Nghĩa Tiếng Việt <button type="button" id="manualTranslateBtn" class="btn-icon" style="font-size: 0.8rem; color: var(--primary); display: none;">(Dịch lại)</button></label>
                     <input type="text" id="newMeaning" placeholder="Sẽ tự động điền" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Cấp độ HSK</label>
+                    <select id="newHskLevel" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: white;">
+                        <option value="HSK 1" selected>HSK 1</option>
+                        <option value="HSK 2">HSK 2</option>
+                        <option value="HSK 3">HSK 3</option>
+                        <option value="HSK 4">HSK 4</option>
+                        <option value="HSK 5">HSK 5</option>
+                        <option value="HSK 6">HSK 6</option>
+                        <option value="None">Khác</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn-primary full-width"><i class="fas fa-check"></i> Lưu vào Từ Điển</button>
             </form>

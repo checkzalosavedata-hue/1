@@ -111,6 +111,7 @@ if (strpos($uri, '/api/words') === 0) {
             'hanzi' => $input['hanzi'] ?? '',
             'pinyin' => $input['pinyin'] ?? '',
             'meaning' => $input['meaning'] ?? '',
+            'hsk_level' => $input['hsk_level'] ?? 'None',
             'is_learned' => false,
             'created_at' => date('Y-m-d H:i:s'),
             'study_count' => 0
