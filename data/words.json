@@ -1,32 +1,38 @@
 [
-  {
-    "id": 1,
-    "hanzi": "你好",
-    "pinyin": "nǐ hǎo",
-    "meaning": "Xin chào"
-  },
-  {
-    "id": 2,
-    "hanzi": "谢谢",
-    "pinyin": "xièxie",
-    "meaning": "Cảm ơn"
-  },
-  {
-    "id": 3,
-    "hanzi": "再见",
-    "pinyin": "zàijiàn",
-    "meaning": "Tạm biệt"
-  },
-  {
-    "id": 4,
-    "hanzi": "对不起",
-    "pinyin": "duìbuqǐ",
-    "meaning": "Xin lỗi"
-  },
-  {
-    "id": 5,
-    "hanzi": "没关系",
-    "pinyin": "méi guānxi",
-    "meaning": "Không có gì"
-  }
+    {
+        "id": 1,
+        "hanzi": "\u4f60\u597d",
+        "pinyin": "n\u01d0 h\u01ceo",
+        "meaning": "Xin ch\u00e0o"
+    },
+    {
+        "id": 2,
+        "hanzi": "\u8c22\u8c22",
+        "pinyin": "xi\u00e8xie",
+        "meaning": "C\u1ea3m \u01a1n"
+    },
+    {
+        "id": 3,
+        "hanzi": "\u518d\u89c1",
+        "pinyin": "z\u00e0iji\u00e0n",
+        "meaning": "T\u1ea1m bi\u1ec7t"
+    },
+    {
+        "id": 4,
+        "hanzi": "\u5bf9\u4e0d\u8d77",
+        "pinyin": "du\u00ecbuq\u01d0",
+        "meaning": "Xin l\u1ed7i"
+    },
+    {
+        "id": 5,
+        "hanzi": "\u6ca1\u5173\u7cfb",
+        "pinyin": "m\u00e9i gu\u0101nxi",
+        "meaning": "Kh\u00f4ng c\u00f3 g\u00ec"
+    },
+    {
+        "id": 6,
+        "hanzi": "test",
+        "pinyin": "test",
+        "meaning": "test"
+    }
 ]
