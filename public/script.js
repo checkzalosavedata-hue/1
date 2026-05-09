@@ -303,9 +303,12 @@ function renderProgress() {
     document.getElementById('statLearned').textContent = learned.length;
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('statToday').textContent = words.filter(w => w.created_at && w.created_at.startsWith(today)).length;
-    learned.sort((a,b) => new Date(b.last_studied_at) - new Date(a.last_studied_at)).forEach(word => {
+    learned.sort((a,b) => new Date(b.last_studied_at || b.created_at) - new Date(a.last_studied_at || a.created_at)).forEach(word => {
+        const studyDate = (word.last_studied_at || word.created_at || '').split(' ')[0];
+        const displayDate = studyDate ? studyDate.split('-').reverse().join('/') : 'Chưa rõ';
+        
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td><strong>${word.hanzi}</strong> [${word.hsk_level}]</td><td>${word.last_studied_at ? word.last_studied_at.split(' ')[0] : 'N/A'}</td><td>${word.study_count || 0} lần</td><td><button class="unlearn-btn" onclick="unlearnWord(${word.id})"><i class="fas fa-undo"></i> Học lại</button></td>`;
+        tr.innerHTML = `<td><strong>${word.hanzi}</strong> [${word.hsk_level}]</td><td>${displayDate}</td><td>${word.study_count || 0} lần</td><td><button class="unlearn-btn" onclick="unlearnWord(${word.id})"><i class="fas fa-undo"></i> Học lại</button></td>`;
         tbody.appendChild(tr);
     });
 }

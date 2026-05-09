@@ -7,7 +7,51 @@
         "hsk_level": "HSK 1",
         "is_learned": false,
         "created_at": "2026-05-09 11:30:06",
-        "study_count": 14,
-        "last_studied_at": "2026-05-09 11:43:12"
+        "study_count": 16,
+        "last_studied_at": "2026-05-09 11:44:28"
+    },
+    {
+        "id": 2,
+        "hanzi": "\u8d8a\u5357",
+        "pinyin": "Yu\u00e8n\u00e1n",
+        "meaning": "Vi\u1ec7t Nam",
+        "hsk_level": "HSK 1",
+        "is_learned": false,
+        "created_at": "2026-05-09 11:43:37",
+        "study_count": 1,
+        "last_studied_at": "2026-05-09 11:44:18"
+    },
+    {
+        "id": 3,
+        "hanzi": "\u65e5\u672c",
+        "pinyin": "R\u00ecb\u011bn",
+        "meaning": "Nh\u1eadt B\u1ea3n",
+        "hsk_level": "HSK 1",
+        "is_learned": false,
+        "created_at": "2026-05-09 11:43:37",
+        "study_count": 1,
+        "last_studied_at": "2026-05-09 11:44:22"
+    },
+    {
+        "id": 4,
+        "hanzi": "\u82f1\u56fd",
+        "pinyin": "Y\u012bnggu\u00f3",
+        "meaning": "V\u01b0\u01a1ng qu\u1ed1c Anh",
+        "hsk_level": "HSK 1",
+        "is_learned": false,
+        "created_at": "2026-05-09 11:43:37",
+        "study_count": 1,
+        "last_studied_at": "2026-05-09 11:44:24"
+    },
+    {
+        "id": 5,
+        "hanzi": "\u7f8e\u56fd",
+        "pinyin": "M\u011bigu\u00f3",
+        "meaning": "Hoa K\u1ef3",
+        "hsk_level": "HSK 1",
+        "is_learned": true,
+        "created_at": "2026-05-09 11:43:37",
+        "study_count": 1,
+        "last_studied_at": "2026-05-09 11:44:28"
     }
 ]
