@@ -388,7 +388,12 @@ function setupModal() {
     manualBtn.addEventListener('click', triggerTranslate);
     hanziInput.addEventListener('input', () => {
         const text = hanziInput.value.trim();
-        if (!text) { pinyinInput.value = ''; meaningInput.value = ''; return; }
+        if (!text) { 
+            pinyinInput.value = ''; 
+            meaningInput.value = ''; 
+            lastTranslated = ''; // Reset trạng thái để có thể dịch lại
+            return; 
+        }
         clearTimeout(translateTimeout); translateTimeout = setTimeout(triggerTranslate, 800);
     });
 }
