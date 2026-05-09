@@ -238,7 +238,18 @@ async function updateCardUI() {
     hanziText.textContent = word.hanzi;
     pinyinText.textContent = word.pinyin;
     meaningText.textContent = word.meaning;
-    fetch(`/api/words/${word.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ increment_study: true }) });
+    
+    // Tăng số lần ôn tập
+    const res = await fetch(`/api/words/${word.id}`, { 
+        method: 'PATCH', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify({ increment_study: true }) 
+    });
+    if(res.ok) {
+        word.study_count = (word.study_count || 0) + 1;
+        word.last_studied_at = new Date().toISOString().replace('T', ' ').split('.')[0];
+        renderProgress(); // Cập nhật lại UI Hành trình nếu đang mở
+    }
 }
 
 function changeFlashcard(direction) {
@@ -409,8 +420,18 @@ function generateQuiz() {
         const btn = document.createElement('button'); 
         btn.className = 'quiz-option'; 
         btn.textContent = opt;
-        btn.onclick = () => {
+        btn.onclick = async () => {
             Array.from(optionsContainer.children).forEach(b => b.style.pointerEvents = 'none');
+            
+            // Tăng số lần ôn tập khi làm quiz
+            await fetch(`/api/words/${currentQuizWord.id}`, { 
+                method: 'PATCH', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ increment_study: true }) 
+            });
+            currentQuizWord.study_count = (currentQuizWord.study_count || 0) + 1;
+            currentQuizWord.last_studied_at = new Date().toISOString().replace('T', ' ').split('.')[0];
+
             if (opt === currentQuizWord.meaning) { 
                 btn.classList.add('correct'); 
                 document.getElementById('quizStatus').innerHTML = '<span style="color:var(--secondary)">Chính xác!</span>'; 
