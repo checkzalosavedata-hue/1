@@ -89,12 +89,27 @@ if ($uri === '/api/translate') {
     if ($response) {
         $data = json_decode($response, true);
         $meaning = ''; foreach ($data[0] as $item) if ($item[0]) $meaning .= $item[0];
-        $pinyin = '';
-        if (isset($data[0]) && is_array($data[0])) {
-            $lastItem = end($data[0]);
-            $pinyin = $lastItem[2] ?? (isset($data[0][1][2]) ? $data[0][1][2] : '');
-        }
-        echo json_encode(['meaning' => trim($meaning), 'pinyin' => trim($pinyin)]);
+            $pinyin = '';
+            if (isset($data[0]) && is_array($data[0])) {
+                foreach ($data[0] as $item) {
+                    // Pinyin (transliteration) thường nằm ở vị trí index 2 hoặc 3 của một mảng mà index 0, 1 là null
+                    if (isset($item[2]) && $item[0] === null && $item[1] === null) {
+                        $pinyin = $item[2];
+                        break;
+                    }
+                    // Trường hợp khác: nằm ở cuối mảng của item đầu tiên
+                    if (isset($item[3]) && is_string($item[3])) {
+                        $pinyin = $item[3];
+                    }
+                }
+                // Fallback nếu vẫn không thấy
+                if (empty($pinyin)) {
+                    $last = end($data[0]);
+                    if (isset($last[2])) $pinyin = $last[2];
+                    else if (isset($last[3])) $pinyin = $last[3];
+                }
+            }
+            echo json_encode(['meaning' => trim($meaning), 'pinyin' => trim($pinyin)]);
     } else {
         http_response_code(500); echo json_encode(['error' => 'API failed']);
     }
