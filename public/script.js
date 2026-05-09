@@ -178,11 +178,54 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
     });
 });
 
-// --- ADD WORD MODAL ---
+// --- ADD WORD MODAL & AUTO-TRANSLATE ---
+let translateTimeout = null;
+
 function setupModal() {
     const modal = document.getElementById('addWordModal');
-    document.getElementById('openAddModalBtn').addEventListener('click', () => modal.classList.add('active'));
+    document.getElementById('openAddModalBtn').addEventListener('click', () => {
+        modal.classList.add('active');
+        document.getElementById('newHanzi').focus();
+    });
     document.getElementById('closeModalBtn').addEventListener('click', () => modal.classList.remove('active'));
+
+    // Auto Translate Logic
+    const hanziInput = document.getElementById('newHanzi');
+    const pinyinInput = document.getElementById('newPinyin');
+    const meaningInput = document.getElementById('newMeaning');
+    const loadingEl = document.getElementById('translateLoading');
+    const listenBtn = document.getElementById('previewListenBtn');
+
+    listenBtn.addEventListener('click', () => {
+        const text = hanziInput.value.trim();
+        if(text) speakWord(text);
+    });
+
+    hanziInput.addEventListener('input', (e) => {
+        const text = e.target.value.trim();
+        if (!text) {
+            listenBtn.style.display = 'none';
+            pinyinInput.value = '';
+            meaningInput.value = '';
+            return;
+        }
+
+        listenBtn.style.display = 'inline-block';
+        loadingEl.style.display = 'inline-block';
+        
+        clearTimeout(translateTimeout);
+        translateTimeout = setTimeout(async () => {
+            try {
+                const res = await fetch(`/api/translate?q=${encodeURIComponent(text)}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if(data.pinyin) pinyinInput.value = data.pinyin;
+                    if(data.meaning) meaningInput.value = data.meaning;
+                }
+            } catch(e) { console.error('Lỗi dịch:', e); }
+            finally { loadingEl.style.display = 'none'; }
+        }, 600); // 600ms debounce
+    });
 }
 
 async function addWord(e) {

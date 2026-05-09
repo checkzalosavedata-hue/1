@@ -174,16 +174,16 @@
             </div>
             <form id="addWordForm" class="modal-form">
                 <div class="input-group">
-                    <label>Chữ Hán</label>
-                    <input type="text" id="newHanzi" placeholder="Ví dụ: 爱" required autocomplete="off">
+                    <label>Chữ Hán <button type="button" class="btn-icon listen" id="previewListenBtn" style="display:none; padding:0 10px;" title="Nghe thử"><i class="fas fa-volume-up"></i></button></label>
+                    <input type="text" id="newHanzi" placeholder="Nhập tiếng Trung vào đây..." required autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label>Pinyin</label>
-                    <input type="text" id="newPinyin" placeholder="Ví dụ: ài" required autocomplete="off">
+                    <label>Pinyin <span id="translateLoading" style="display:none; font-size:0.8rem; color:var(--primary);"><i class="fas fa-spinner fa-spin"></i> Đang tự dịch...</span></label>
+                    <input type="text" id="newPinyin" placeholder="Sẽ tự động điền" required autocomplete="off">
                 </div>
                 <div class="input-group">
                     <label>Nghĩa Tiếng Việt</label>
-                    <input type="text" id="newMeaning" placeholder="Ví dụ: Yêu" required autocomplete="off">
+                    <input type="text" id="newMeaning" placeholder="Sẽ tự động điền" required autocomplete="off">
                 </div>
                 <button type="submit" class="btn-primary full-width"><i class="fas fa-check"></i> Lưu vào Từ Điển</button>
             </form>

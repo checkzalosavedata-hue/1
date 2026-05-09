@@ -24,6 +24,42 @@ if ($uri === '/api/config') {
     }
 }
 
+// Handle /api/translate
+if ($uri === '/api/translate') {
+    if ($method === 'GET') {
+        $q = urlencode($_GET['q'] ?? '');
+        if (empty($q)) {
+            echo json_encode(['pinyin' => '', 'meaning' => '']);
+            exit;
+        }
+        $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=vi&dt=t&dt=rm&q=$q";
+        $response = @file_get_contents($url);
+        if ($response) {
+            $data = json_decode($response, true);
+            $meaning = '';
+            foreach ($data[0] as $item) {
+                if ($item[0] !== null && $item[1] !== null) {
+                    $meaning .= $item[0];
+                }
+            }
+            $pinyin = '';
+            if (isset($data[0]) && is_array($data[0])) {
+                $lastItem = end($data[0]);
+                if (isset($lastItem[2])) {
+                    $pinyin = $lastItem[2];
+                } else if (isset($data[0][1][2])) {
+                    $pinyin = $data[0][1][2];
+                }
+            }
+            echo json_encode(['meaning' => trim($meaning), 'pinyin' => trim($pinyin)]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'API failed']);
+        }
+        exit;
+    }
+}
+
 // Handle /api/words
 if (strpos($uri, '/api/words') === 0) {
     $words = file_exists($wordsFile) ? json_decode(file_get_contents($wordsFile), true) : [];
