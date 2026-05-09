@@ -350,14 +350,22 @@ function setupModal() {
     const loadingEl = document.getElementById('translateLoading');
     const manualBtn = document.getElementById('manualTranslateBtn');
 
+    let lastTranslated = "";
     const triggerTranslate = async () => {
-        const text = hanziInput.value.trim(); if(!text) return;
+        const text = hanziInput.value.trim(); 
+        if(!text || text === lastTranslated) return;
+        
         loadingEl.style.display = 'inline-block';
         try {
             const res = await fetch(`/api/translate?q=${encodeURIComponent(text)}`);
             if (res.ok) {
                 const data = await res.json();
-                if(data.hanzi) hanziInput.value = data.hanzi; // Tự điền Hanzi nếu nhập tiếng Việt
+                lastTranslated = data.hanzi || text; // Lưu lại để tránh lặp
+                
+                if(data.hanzi) {
+                    hanziInput.value = data.hanzi;
+                    lastTranslated = data.hanzi; // Cập nhật lại vì Hanzi đã đổi
+                }
                 if(data.pinyin) pinyinInput.value = data.pinyin;
                 if(data.meaning) meaningInput.value = data.meaning;
             }
