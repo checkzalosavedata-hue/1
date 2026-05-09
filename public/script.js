@@ -73,6 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    document.getElementById('hidePinyinToggle').addEventListener('change', (e) => {
+        pinyinText.classList.toggle('hidden-mode', e.target.checked);
+    });
+    document.getElementById('hideMeaningToggle').addEventListener('change', (e) => {
+        meaningText.classList.toggle('hidden-mode', e.target.checked);
+    });
+
     setupBulkModal();
 });
 
@@ -247,6 +254,10 @@ async function updateCardUI() {
     pinyinText.textContent = word.pinyin;
     meaningText.textContent = word.meaning;
     
+    // Áp dụng trạng thái ẩn/hiện dựa trên toggle
+    pinyinText.classList.toggle('hidden-mode', document.getElementById('hidePinyinToggle').checked);
+    meaningText.classList.toggle('hidden-mode', document.getElementById('hideMeaningToggle').checked);
+
     // Tăng số lần ôn tập
     const res = await fetch(`/api/words/${word.id}`, { 
         method: 'PATCH', 

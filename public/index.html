@@ -45,8 +45,27 @@
             <!-- TAB: LEARN -->
             <section id="tab-learn" class="tab-pane active">
                 <header class="page-header">
-                    <h2>Học Từ Vựng</h2>
-                    <p>Ôn tập các từ bạn vừa thêm trong ngày hôm nay.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <div>
+                            <h2>Học Từ Vựng</h2>
+                            <p>Ôn tập các từ bạn vừa thêm trong ngày hôm nay.</p>
+                        </div>
+                        <div class="study-settings">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="hidePinyinToggle">
+                                <span class="slider"></span>
+                                <span class="label-text">Ẩn Pinyin</span>
+                            </label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="hideMeaningToggle">
+                                <span class="slider"></span>
+                                <span class="label-text">Ẩn Nghĩa</span>
+                            </label>
+                            <button class="btn-icon" title="Hướng dẫn chức năng mới" onclick="alert('Mẹo: Bạn có thể nhập TIẾNG VIỆT vào ô Chữ Hán khi thêm từ, hệ thống sẽ tự dịch sang Chữ Hán và Pinyin cho bạn! \n\nNgoài ra, hãy dùng nút gạt để ẩn Pinyin/Nghĩa giúp việc ghi nhớ tốt hơn.')">
+                                <i class="fas fa-question-circle"></i>
+                            </button>
+                        </div>
+                    </div>
                 </header>
 
                 <div class="flashcard-wrapper">
