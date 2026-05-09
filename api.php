@@ -79,36 +79,42 @@ if ($uri === '/api/translate') {
     $q = $_GET['q'] ?? '';
     if (empty($q)) { echo json_encode(['pinyin' => '', 'meaning' => '']); exit; }
     
-    // Kiểm tra xem input có phải là tiếng Trung không (sử dụng regex cho ký tự Hanzi)
-    $isChinese = preg_match('/\p{Han}/u', $q);
-    $sl = $isChinese ? 'zh-CN' : 'vi';
-    $tl = $isChinese ? 'vi' : 'zh-CN';
-    
-    $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=$sl&tl=$tl&dt=t&dt=rm&q=" . urlencode($q);
+    // Sử dụng sl=auto để Google tự nhận diện
+    $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=vi&dt=t&dt=rm&q=" . urlencode($q);
     $response = @file_get_contents($url);
     
     if ($response) {
         $data = json_decode($response, true);
+        $detectedLang = $data[2] ?? 'zh-CN'; // Ngôn ngữ nguồn phát hiện được
+        
         $meaning = ''; 
         foreach ($data[0] as $item) if ($item[0]) $meaning .= $item[0];
         
         $pinyin = '';
         if (isset($data[0]) && is_array($data[0])) {
             foreach ($data[0] as $item) {
-                // Lấy pinyin từ kết quả (thường ở item[2] hoặc item[3] tùy theo hướng dịch)
                 if (isset($item[2]) && $item[0] === null) { $pinyin = $item[2]; break; }
                 if (isset($item[3]) && is_string($item[3])) $pinyin = $item[3];
             }
         }
         
-        // Nếu dịch từ Việt sang Trung, 'meaning' là Hanzi, ta cần swap lại cho khớp với form
-        if (!$isChinese) {
+        // Nếu phát hiện là tiếng Việt, ta cần dịch lại sang tiếng Trung để lấy Hanzi
+        if ($detectedLang === 'vi') {
+            $urlZh = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=vi&tl=zh-CN&dt=t&dt=rm&q=" . urlencode($q);
+            $resZh = json_decode(@file_get_contents($urlZh), true);
+            $hanzi = ''; foreach ($resZh[0] as $item) if ($item[0]) $hanzi .= $item[0];
+            $pinyinZh = '';
+            foreach ($resZh[0] as $item) {
+                if (isset($item[2]) && $item[0] === null) { $pinyinZh = $item[2]; break; }
+                if (isset($item[3]) && is_string($item[3])) $pinyinZh = $item[3];
+            }
             echo json_encode([
-                'hanzi' => trim($meaning), 
-                'pinyin' => trim($pinyin),
-                'meaning' => $q // Nghĩa chính là từ tiếng Việt vừa nhập
+                'hanzi' => trim($hanzi), 
+                'pinyin' => trim($pinyinZh),
+                'meaning' => $q
             ]);
         } else {
+            // Là tiếng Trung hoặc ngôn ngữ khác -> Dịch sang tiếng Việt
             echo json_encode(['meaning' => trim($meaning), 'pinyin' => trim($pinyin)]);
         }
     } else { http_response_code(500); echo json_encode(['error' => 'API failed']); }
