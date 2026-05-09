@@ -42,6 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if(res.ok) window.location.reload();
     });
 
+    document.getElementById('resetAccountBtn').addEventListener('click', async () => {
+        if(!confirm("CẢNH BÁO: Hành động này sẽ XÓA SẠCH toàn bộ từ vựng và kết nối Telegram của riêng bạn.\nBạn có chắc chắn muốn làm điều này?")) return;
+        if(!confirm("Xác nhận lần cuối: Bạn sẽ mất trắng dữ liệu hiện tại!")) return;
+        
+        const res = await fetch('/api/auth/reset', { method: 'POST' });
+        if(res.ok) {
+            showToast("Đã reset tài khoản thành công!");
+            setTimeout(() => window.location.reload(), 1500);
+        }
+    });
+
     document.getElementById('addWordForm').addEventListener('submit', addWord);
     document.getElementById('nextQuizBtn').addEventListener('click', generateQuiz);
 
@@ -294,7 +305,7 @@ function renderProgress() {
     document.getElementById('statToday').textContent = words.filter(w => w.created_at && w.created_at.startsWith(today)).length;
     learned.sort((a,b) => new Date(b.last_studied_at) - new Date(a.last_studied_at)).forEach(word => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td><strong>${word.hanzi}</strong> [${word.hsk_level}]</td><td>${word.last_studied_at ? word.last_studied_at.split(' ')[0] : 'N/A'}</td><td>${word.study_count || 0} lần</td><td><button class="btn-secondary" style="font-size:0.7rem;" onclick="unlearnWord(${word.id})">Học lại</button></td>`;
+        tr.innerHTML = `<td><strong>${word.hanzi}</strong> [${word.hsk_level}]</td><td>${word.last_studied_at ? word.last_studied_at.split(' ')[0] : 'N/A'}</td><td>${word.study_count || 0} lần</td><td><button class="unlearn-btn" onclick="unlearnWord(${word.id})"><i class="fas fa-undo"></i> Học lại</button></td>`;
         tbody.appendChild(tr);
     });
 }

@@ -60,6 +60,20 @@ if ($uri === '/api/auth/login') {
 
 if ($uri === '/api/auth/logout') { session_destroy(); echo json_encode(['success' => true]); exit; }
 
+if ($uri === '/api/auth/reset' && $method === 'POST') {
+    if (!isset($_SESSION['user'])) { http_response_code(401); exit; }
+    $username = $_SESSION['user']['username'];
+    $userPath = __DIR__ . "/data/users/$username";
+    if (file_exists("$userPath/words.json")) file_put_contents("$userPath/words.json", "[]");
+    if (file_exists("$userPath/config.json")) {
+        $config = json_decode(file_get_contents("$userPath/config.json"), true);
+        $config['chatId'] = null;
+        file_put_contents("$userPath/config.json", json_encode($config));
+    }
+    echo json_encode(['success' => true]);
+    exit;
+}
+
 // 2. TRANSLATE API
 if ($uri === '/api/translate') {
     $q = urlencode($_GET['q'] ?? '');

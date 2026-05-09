@@ -5,10 +5,10 @@
         "pinyin": "N\u01d0 h\u01ceo",
         "meaning": "Xin ch\u00e0o",
         "hsk_level": "HSK 1",
-        "is_learned": false,
+        "is_learned": true,
         "created_at": "2026-05-09 11:16:28",
-        "study_count": 2,
-        "last_studied_at": "2026-05-09 11:21:56"
+        "study_count": 5,
+        "last_studied_at": "2026-05-09 11:23:48"
     },
     {
         "id": 2,
@@ -16,10 +16,10 @@
         "pinyin": "W\u01d2 \u00e0i n\u01d0",
         "meaning": "Anh Y\u00eau Em",
         "hsk_level": "HSK 1",
-        "is_learned": false,
+        "is_learned": true,
         "created_at": "2026-05-09 11:16:28",
-        "study_count": 1,
-        "last_studied_at": "2026-05-09 11:17:15"
+        "study_count": 3,
+        "last_studied_at": "2026-05-09 11:23:47"
     },
     {
         "id": 3,
@@ -29,7 +29,8 @@
         "hsk_level": "HSK 1",
         "is_learned": false,
         "created_at": "2026-05-09 11:16:28",
-        "study_count": 0
+        "study_count": 4,
+        "last_studied_at": "2026-05-09 11:25:18"
     },
     {
         "id": 4,
