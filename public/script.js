@@ -39,7 +39,89 @@ document.addEventListener('DOMContentLoaded', () => {
     // Filter Dictionary
     document.getElementById('searchInput').addEventListener('input', renderDictionary);
     document.getElementById('hskFilter').addEventListener('change', renderDictionary);
+    
+    // Bulk Delete
+    document.getElementById('bulkDeleteBtn').addEventListener('click', async () => {
+        const hsk = document.getElementById('hskFilter').value;
+        const msg = hsk === 'All' ? 'Xóa TOÀN BỘ từ vựng?' : `Xóa toàn bộ từ thuộc ${hsk}?`;
+        if(!confirm(msg)) return;
+        const res = await fetch(`/api/words?hsk=${hsk}`, { method: 'DELETE' });
+        if(res.ok) {
+            words = hsk === 'All' ? [] : words.filter(w => (w.hsk_level||'None') !== hsk);
+            renderDictionary(); renderProgress();
+            showToast("Đã xóa hàng loạt thành công");
+        }
+    });
+
+    setupBulkModal();
 });
+
+// --- BULK ADD LOGIC ---
+function setupBulkModal() {
+    const modal = document.getElementById('bulkAddModal');
+    const previewArea = document.getElementById('bulkPreviewArea');
+    const previewBody = document.getElementById('bulkPreviewTableBody');
+    
+    document.getElementById('openBulkAddBtn').addEventListener('click', () => modal.classList.add('active'));
+    document.getElementById('closeBulkAddBtn').addEventListener('click', () => {
+        modal.classList.remove('active');
+        previewArea.style.display = 'none';
+        document.getElementById('bulkHanziArea').value = '';
+    });
+
+    document.getElementById('previewBulkBtn').addEventListener('click', async () => {
+        const lines = document.getElementById('bulkHanziArea').value.split('\n').map(l => l.trim()).filter(l => l);
+        if(lines.length === 0) return showToast("Vui lòng nhập ít nhất 1 từ", "error");
+        
+        previewBody.innerHTML = '<tr><td colspan="3" style="text-align:center">Đang dịch hàng loạt...</td></tr>';
+        previewArea.style.display = 'block';
+        
+        let results = [];
+        for(let hanzi of lines) {
+            try {
+                const res = await fetch(`/api/translate?q=${encodeURIComponent(hanzi)}`);
+                const data = res.ok ? await res.json() : { pinyin: '', meaning: '' };
+                results.push({ hanzi, pinyin: data.pinyin, meaning: data.meaning });
+            } catch(e) { results.push({ hanzi, pinyin: '', meaning: '' }); }
+        }
+        
+        previewBody.innerHTML = '';
+        results.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" value="${item.hanzi}" class="bulk-input hanzi-val"></td>
+                <td><input type="text" value="${item.pinyin}" class="bulk-input pinyin-val"></td>
+                <td><input type="text" value="${item.meaning}" class="bulk-input meaning-val"></td>
+            `;
+            previewBody.appendChild(tr);
+        });
+    });
+
+    document.getElementById('saveBulkBtn').addEventListener('click', async () => {
+        const rows = Array.from(previewBody.querySelectorAll('tr'));
+        const hsk = document.getElementById('bulkHskLevel').value;
+        let count = 0;
+        
+        for(let row of rows) {
+            const hanzi = row.querySelector('.hanzi-val').value;
+            const pinyin = row.querySelector('.pinyin-val').value;
+            const meaning = row.querySelector('.meaning-val').value;
+            
+            if(!hanzi) continue;
+            
+            await fetch('/api/words', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ hanzi, pinyin, meaning, hsk_level: hsk })
+            });
+            count++;
+        }
+        
+        showToast(`Đã lưu thành công ${count} từ vào HSK ${hsk}`);
+        fetchWords();
+        document.getElementById('closeBulkAddBtn').click();
+    });
+}
 
 // --- API ---
 async function fetchWords() {

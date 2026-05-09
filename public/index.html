@@ -136,7 +136,9 @@
                         <option value="HSK 6">HSK 6</option>
                         <option value="None">Khác</option>
                     </select>
-                    <button id="openAddModalBtn" class="btn-primary"><i class="fas fa-plus"></i> Thêm Từ</button>
+                    <button id="bulkDeleteBtn" class="btn-icon" style="color: var(--primary); padding: 0 10px;" title="Xóa toàn bộ từ đang lọc"><i class="fas fa-trash-sweep"></i> Xóa lọc</button>
+                    <button id="openBulkAddBtn" class="btn-secondary"><i class="fas fa-list"></i> Thêm Nhiều</button>
+                    <button id="openAddModalBtn" class="btn-primary"><i class="fas fa-plus"></i> Thêm Một</button>
                 </div>
 
                 <div class="table-container">
@@ -251,6 +253,50 @@
                 </div>
                 <button type="submit" class="btn-primary full-width"><i class="fas fa-check"></i> Lưu vào Từ Điển</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Bulk Add Modal -->
+    <div id="bulkAddModal" class="modal-overlay">
+        <div class="modal-content glass-panel" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Thêm Nhiều Từ Vựng</h3>
+                <button id="closeBulkAddBtn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--text-light);">Nhập danh sách chữ Hán (mỗi dòng một từ):</p>
+                <textarea id="bulkHanziArea" rows="10" style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; resize: vertical;" placeholder="Ví dụ:&#10;你好&#10;谢谢&#10;再见"></textarea>
+                
+                <div style="margin-top: 20px; display: flex; gap: 10px; align-items: center;">
+                    <label>Cấp độ HSK chung:</label>
+                    <select id="bulkHskLevel" style="padding: 8px; border-radius: 8px;">
+                        <option value="HSK 1">HSK 1</option>
+                        <option value="HSK 2">HSK 2</option>
+                        <option value="HSK 3">HSK 3</option>
+                        <option value="HSK 4">HSK 4</option>
+                        <option value="HSK 5">HSK 5</option>
+                        <option value="HSK 6">HSK 6</option>
+                    </select>
+                    <button id="previewBulkBtn" class="btn-primary" style="margin-left: auto;"><i class="fas fa-magic"></i> Bắt đầu dịch</button>
+                </div>
+
+                <div id="bulkPreviewArea" style="margin-top: 25px; display: none;">
+                    <h4 style="margin-bottom: 10px;">Xem trước và chỉnh sửa:</h4>
+                    <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+                        <table class="dict-table">
+                            <thead>
+                                <tr>
+                                    <th>Chữ Hán</th>
+                                    <th>Pinyin</th>
+                                    <th>Nghĩa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bulkPreviewTableBody"></tbody>
+                        </table>
+                    </div>
+                    <button id="saveBulkBtn" class="btn-primary full-width" style="margin-top: 20px;"><i class="fas fa-save"></i> Lưu Tất Cả Vào Từ Điển</button>
+                </div>
+            </div>
         </div>
     </div>
 

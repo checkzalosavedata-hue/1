@@ -133,10 +133,22 @@ if (strpos($uri, '/api/words') === 0) {
         file_put_contents($wordsFile, json_encode($words, JSON_PRETTY_PRINT));
         echo json_encode(['success' => true]);
     } else if ($method === 'DELETE') {
-        $id = (int)str_replace('/api/words/', '', $uri);
-        $words = array_filter($words, function($w) use ($id) { return $w['id'] !== $id; });
-        file_put_contents($wordsFile, json_encode(array_values($words), JSON_PRETTY_PRINT));
-        echo json_encode(['success' => true]);
+        $hsk = $_GET['hsk'] ?? null;
+        if ($hsk) {
+            if ($hsk === 'All') {
+                $words = [];
+            } else {
+                $words = array_filter($words, function($w) use ($hsk) { return ($w['hsk_level'] ?? 'None') !== $hsk; });
+            }
+            file_put_contents($wordsFile, json_encode(array_values($words), JSON_PRETTY_PRINT));
+            echo json_encode(['success' => true]);
+        } else {
+            $id = (int)str_replace('/api/words/', '', $uri);
+            $words = array_filter($words, function($w) use ($id) { return $w['id'] !== $id; });
+            file_put_contents($wordsFile, json_encode(array_values($words), JSON_PRETTY_PRINT));
+            echo json_encode(['success' => true]);
+        }
+        exit;
     }
     exit;
 }
