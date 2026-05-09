@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Từ Vựng Tiếng Trung</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-circles">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1>Học Tiếng Trung Mỗi Ngày 🇨🇳</h1>
+            <p>Nhấp vào thẻ để xem nghĩa. Bấm "Từ Tiếp Theo" để học từ mới.</p>
+        </header>
+
+        <!-- Khu vực hiển thị Flashcard -->
+        <section class="flashcard-container">
+            <div class="flashcard" id="flashcard">
+                <div class="front">
+                    <h2 id="hanzi" class="chinese-text">加载中...</h2>
+                    <p id="pinyin" class="pinyin-text">...</p>
+                </div>
+                <div class="back">
+                    <h3 id="meaning" class="meaning-text">...</h3>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="prevBtn" class="btn btn-secondary">❮ Trước</button>
+                <button id="nextBtn" class="btn btn-primary">Tiếp theo ❯</button>
+            </div>
+        </section>
+
+        <!-- Thêm từ mới -->
+        <section class="add-word-section glass-panel">
+            <h2>➕ Thêm từ vựng mới</h2>
+            <form id="addWordForm">
+                <div class="form-group">
+                    <input type="text" id="newHanzi" placeholder="Chữ Hán (VD: 爱)" required>
+                    <input type="text" id="newPinyin" placeholder="Pinyin (VD: ài)" required>
+                </div>
+                <input type="text" id="newMeaning" placeholder="Nghĩa tiếng Việt (VD: Yêu)" required>
+                <button type="submit" class="btn btn-submit">Lưu từ vựng</button>
+            </form>
+            <p id="addMessage" class="message"></p>
+        </section>
+
+        <!-- Cài đặt Telegram -->
+        <section class="telegram-section glass-panel">
+            <h2>🤖 Nhắc nhở qua Telegram</h2>
+            <p>Để nhận nhắc nhở mỗi ngày lúc 8:00 sáng:</p>
+            <ol>
+                <li>Mở Telegram và tìm kiếm bot của bạn.</li>
+                <li>Bấm <strong>Start</strong> hoặc gõ lệnh <code>/start</code>.</li>
+                <li>Bot sẽ tự động ghi nhớ bạn và gửi từ vựng mỗi ngày!</li>
+            </ol>
+            <p class="note">*Lưu ý: Yêu cầu quản trị viên cấu hình mã Token cho Bot trong server.</p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "hanzi": "你好",
+    "pinyin": "nǐ hǎo",
+    "meaning": "Xin chào"
+  },
+  {
+    "id": 2,
+    "hanzi": "谢谢",
+    "pinyin": "xièxie",
+    "meaning": "Cảm ơn"
+  },
+  {
+    "id": 3,
+    "hanzi": "再见",
+    "pinyin": "zàijiàn",
+    "meaning": "Tạm biệt"
+  },
+  {
+    "id": 4,
+    "hanzi": "对不起",
+    "pinyin": "duìbuqǐ",
+    "meaning": "Xin lỗi"
+  },
+  {
+    "id": 5,
+    "hanzi": "没关系",
+    "pinyin": "méi guānxi",
+    "meaning": "Không có gì"
+  }
+]
