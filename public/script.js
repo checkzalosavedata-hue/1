@@ -93,7 +93,7 @@ function setupBulkModal() {
         const lines = document.getElementById('bulkHanziArea').value.split('\n').map(l => l.trim()).filter(l => l);
         if(lines.length === 0) return showToast("Vui lòng nhập ít nhất 1 từ", "error");
         
-        previewBody.innerHTML = '<tr><td colspan="3" style="text-align:center">Đang dịch hàng loạt...</td></tr>';
+        previewBody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 30px;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i><br><br>Đang dịch hàng loạt...</td></tr>';
         previewArea.style.display = 'block';
         
         let results = [];
@@ -109,9 +109,9 @@ function setupBulkModal() {
         results.forEach((item, index) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td><input type="text" value="${item.hanzi}" class="bulk-input hanzi-val"></td>
-                <td><input type="text" value="${item.pinyin}" class="bulk-input pinyin-val"></td>
-                <td><input type="text" value="${item.meaning}" class="bulk-input meaning-val"></td>
+                <td style="padding: 10px;"><input type="text" value="${item.hanzi}" class="bulk-input hanzi-val"></td>
+                <td style="padding: 10px;"><input type="text" value="${item.pinyin}" class="bulk-input pinyin-val"></td>
+                <td style="padding: 10px;"><input type="text" value="${item.meaning}" class="bulk-input meaning-val"></td>
             `;
             previewBody.appendChild(tr);
         });
