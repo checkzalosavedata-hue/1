@@ -1,95 +1,109 @@
 <?php
-$wordsFile = __DIR__ . '/data/words.json';
-$configFile = __DIR__ . '/data/config.json';
+// bot.php
+$globalConfigFile = __DIR__ . '/data/global_config.json';
+$usersFile = __DIR__ . '/data/users.json';
+$usersDir = __DIR__ . '/data/users';
 
-function getToken() {
-    global $configFile;
-    $config = file_exists($configFile) ? json_decode(file_get_contents($configFile), true) : [];
+function getGlobalToken() {
+    global $globalConfigFile;
+    $config = file_exists($globalConfigFile) ? json_decode(file_get_contents($globalConfigFile), true) : [];
     return $config['telegramToken'] ?? '';
 }
 
 function sendMessage($chatId, $text) {
-    $token = getToken();
-    if (empty($token)) return;
+    $token = getGlobalToken();
+    if (empty($token) || $token === 'THAY_BANG_TOKEN_CHUNG_CUA_BAN') return;
     $url = "https://api.telegram.org/bot$token/sendMessage";
     $data = ['chat_id' => $chatId, 'text' => $text, 'parse_mode' => 'Markdown'];
-    $options = [
-        'http' => [
-            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method'  => 'POST',
-            'content' => http_build_query($data)
-        ]
-    ];
-    $context  = stream_context_create($options);
+    $options = ['http' => ['header' => "Content-type: application/x-www-form-urlencoded\r\n", 'method' => 'POST', 'content' => http_build_query($data)]];
+    $context = stream_context_create($options);
     @file_get_contents($url, false, $context);
 }
 
 function getUpdates($offset) {
-    $token = getToken();
-    if (empty($token)) return [];
+    $token = getGlobalToken();
+    if (empty($token) || $token === 'THAY_BANG_TOKEN_CHUNG_CUA_BAN') return [];
     $url = "https://api.telegram.org/bot$token/getUpdates?offset=$offset&timeout=30";
     $response = @file_get_contents($url);
-    if ($response) {
-        $data = json_decode($response, true);
-        return $data['result'] ?? [];
-    }
+    if ($response) { $data = json_decode($response, true); return $data['result'] ?? []; }
     return [];
 }
 
 $lastUpdateId = 0;
 $lastRemindedDay = ''; 
 
-echo "Telegram Bot (PHP) đang chạy chờ Token từ Web...\n";
+echo "Telegram Bot ĐA NGƯỜI DÙNG đang chạy...\n";
 
 while (true) {
-    $token = getToken();
-    if (!empty($token) && $token !== 'THAY_BANG_TOKEN_BOT_CUA_BAN') {
-        // 1. Nhận tin nhắn mới
+    $token = getGlobalToken();
+    if (!empty($token) && $token !== 'THAY_BANG_TOKEN_CHUNG_CUA_BAN') {
+        // 1. Nhận tin nhắn
         $updates = getUpdates($lastUpdateId + 1);
         foreach ($updates as $update) {
             $lastUpdateId = $update['update_id'];
             if (isset($update['message']['text'])) {
-                $text = $update['message']['text'];
+                $text = trim($update['message']['text']);
                 $chatId = $update['message']['chat']['id'];
                 
-                if ($text === '/start') {
-                    $config = file_exists($configFile) ? json_decode(file_get_contents($configFile), true) : [];
-                    $config['chatId'] = $chatId;
-                    file_put_contents($configFile, json_encode($config, JSON_PRETTY_PRINT));
-                    sendMessage($chatId, "Tuyệt vời! Tôi sẽ gửi lời nhắc học từ vựng cho bạn mỗi ngày.\nCác lệnh hỗ trợ:\n/hoc - Nhận 1 từ ngẫu nhiên\n/quiz - Làm bài trắc nghiệm");
-                } else if ($text === '/hoc') {
-                    $words = file_exists($wordsFile) ? json_decode(file_get_contents($wordsFile), true) : [];
-                    if (count($words) > 0) {
-                        $word = $words[array_rand($words)];
-                        $msg = "📚 *Từ vựng hôm nay:*\n\n🇨🇳 Chữ Hán: {$word['hanzi']}\n🔊 Pinyin: {$word['pinyin']}\n🇻🇳 Nghĩa: {$word['meaning']}\n\nHãy vào web để ôn tập thêm nhé!";
-                        sendMessage($chatId, $msg);
-                    } else {
-                        sendMessage($chatId, "Bạn chưa thêm từ vựng nào vào danh sách!");
+                // Xử lý /start <sync_code>
+                if (preg_match('/^\/start\s+(\d+)$/', $text, $matches)) {
+                    $code = (int)$matches[1];
+                    $users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
+                    $found = false;
+                    foreach ($users as $u) {
+                        if (isset($u['sync_code']) && $u['sync_code'] == $code) {
+                            $userPath = "$usersDir/{$u['username']}";
+                            $config = json_decode(file_get_contents("$userPath/config.json"), true);
+                            $config['chatId'] = $chatId;
+                            file_put_contents("$userPath/config.json", json_encode($config, JSON_PRETTY_PRINT));
+                            sendMessage($chatId, "✅ Chào *{$u['username']}*! Tài khoản của bạn đã được kết nối thành công. Bạn sẽ nhận được nhắc nhở học từ vựng mỗi ngày vào lúc 8h sáng.");
+                            $found = true; break;
+                        }
                     }
-                } else if ($text === '/quiz') {
-                    $words = file_exists($wordsFile) ? json_decode(file_get_contents($wordsFile), true) : [];
-                    if (count($words) >= 4) {
-                        $word = $words[array_rand($words)];
-                        $msg = "🧠 *Câu hỏi Quiz:*\n\nTừ này có nghĩa là gì?\n🇨🇳 *{$word['hanzi']}* ({$word['pinyin']})\n\n(Chức năng trả lời trực tiếp trên Telegram sẽ được cập nhật sau. Hãy tự nhẩm nghĩa trong đầu nhé!)";
-                        sendMessage($chatId, $msg);
+                    if (!$found) sendMessage($chatId, "❌ Mã kết nối không hợp lệ. Vui lòng kiểm tra lại trên Website.");
+                } else if ($text === '/hoc' || $text === '/start') {
+                    // Tìm user theo Chat ID
+                    $users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
+                    $currentUser = null;
+                    foreach ($users as $u) {
+                        $userConfig = "$usersDir/{$u['username']}/config.json";
+                        if (file_exists($userConfig)) {
+                            $cfg = json_decode(file_get_contents($userConfig), true);
+                            if (isset($cfg['chatId']) && $cfg['chatId'] == $chatId) {
+                                $currentUser = $u; break;
+                            }
+                        }
+                    }
+
+                    if ($currentUser) {
+                        if ($text === '/hoc') {
+                            $words = json_decode(file_get_contents("$usersDir/{$currentUser['username']}/words.json"), true);
+                            if (!empty($words)) {
+                                $w = $words[array_rand($words)];
+                                sendMessage($chatId, "📚 *Từ vựng cho bạn:*\n\n🇨🇳 *{$w['hanzi']}* ({$w['pinyin']})\n🇻🇳 Nghĩa: {$w['meaning']}");
+                            } else sendMessage($chatId, "Bạn chưa thêm từ vựng nào!");
+                        } else sendMessage($chatId, "Chào mừng quay lại! Gõ /hoc để nhận từ vựng.");
                     } else {
-                        sendMessage($chatId, "Bạn cần thêm ít nhất 4 từ vựng để chơi Quiz!");
+                        sendMessage($chatId, "Chào mừng! Hãy nhập `/start <mã_kết_nối>` để liên kết tài khoản của bạn.");
                     }
                 }
             }
         }
         
-        // 2. Cron job (Nhắc nhở lúc 8h sáng)
+        // 2. Nhắc nhở 8h sáng cho TẤT CẢ user
         $currentHour = (int)date('H');
         $today = date('Y-m-d');
         if ($currentHour == 8 && $lastRemindedDay !== $today) {
-            $config = file_exists($configFile) ? json_decode(file_get_contents($configFile), true) : [];
-            if (isset($config['chatId'])) {
-                $words = file_exists($wordsFile) ? json_decode(file_get_contents($wordsFile), true) : [];
-                if (count($words) > 0) {
-                    $word = $words[array_rand($words)];
-                    $msg = "🔔 *Nhắc nhở học tập mỗi ngày:*\n\n🇨🇳 Chữ Hán: {$word['hanzi']}\n🔊 Pinyin: {$word['pinyin']}\n🇻🇳 Nghĩa: {$word['meaning']}";
-                    sendMessage($config['chatId'], $msg);
+            $users = file_exists($usersFile) ? json_decode(file_get_contents($usersFile), true) : [];
+            foreach ($users as $u) {
+                $userPath = "$usersDir/{$u['username']}";
+                $config = json_decode(file_get_contents("$userPath/config.json"), true);
+                if (isset($config['chatId'])) {
+                    $words = json_decode(file_get_contents("$userPath/words.json"), true);
+                    if (!empty($words)) {
+                        $w = $words[array_rand($words)];
+                        sendMessage($config['chatId'], "🔔 *Nhắc nhở học tập:*\n\n🇨🇳 *{$w['hanzi']}* ({$w['pinyin']})\n🇻🇳 Nghĩa: {$w['meaning']}");
+                    }
                 }
             }
             $lastRemindedDay = $today;

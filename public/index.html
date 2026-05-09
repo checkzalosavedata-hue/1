@@ -34,6 +34,7 @@
                 <li data-tab="dictionary"><i class="fas fa-book"></i> <span>Từ Điển</span></li>
                 <li data-tab="quiz"><i class="fas fa-gamepad"></i> <span>Kiểm Tra</span></li>
                 <li data-tab="settings"><i class="fas fa-cog"></i> <span>Cài Đặt</span></li>
+                <li id="logoutBtn" style="margin-top: auto; color: var(--primary)"><i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span></li>
             </ul>
         </nav>
 
@@ -134,29 +135,26 @@
             <section id="tab-settings" class="tab-pane">
                 <header class="page-header">
                     <h2>Cài Đặt Hệ Thống</h2>
-                    <p>Cấu hình Bot Telegram và tùy chỉnh.</p>
+                    <p>Kết nối Telegram để nhận nhắc nhở mỗi ngày.</p>
                 </header>
 
                 <div class="settings-card glass-panel">
                     <h3><i class="fab fa-telegram"></i> Nhắc Nhở Telegram</h3>
-                    <p class="settings-desc">Bot sẽ tự động gửi 1 từ vựng vào 8:00 sáng mỗi ngày.</p>
                     
-                    <form id="telegramForm" class="settings-form">
-                        <div class="input-group">
-                            <label for="tgToken">Bot Token (Lấy từ @BotFather)</label>
-                            <input type="text" id="tgToken" placeholder="Ví dụ: 123456789:ABCDefGhi...">
-                        </div>
-                        <button type="submit" class="btn-primary" id="saveTgBtn"><i class="fas fa-save"></i> Lưu Token</button>
-                    </form>
+                    <div class="sync-code-box" style="background: var(--primary); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center;">
+                        <p style="font-size: 0.9rem; opacity: 0.9;">Mã kết nối của bạn:</p>
+                        <h1 id="syncCodeDisplay" style="font-size: 3rem; letter-spacing: 5px;">------</h1>
+                    </div>
                     
                     <div id="tgStatus" class="status-box"></div>
                     
                     <div class="guide-box">
-                        <h4>Cách thiết lập:</h4>
+                        <h4>Cách kết nối:</h4>
                         <ol>
-                            <li>Tạo bot từ <strong>@BotFather</strong> trên Telegram.</li>
-                            <li>Copy Token dán vào ô trên và Lưu.</li>
-                            <li>Vào Telegram, tìm bot của bạn và nhắn <code>/start</code>.</li>
+                            <li>Vào Telegram, tìm Bot: <strong id="botNameDisplay">Đang tải...</strong></li>
+                            <li>Bấm <strong>Start</strong> hoặc nhắn tin theo cú pháp:</li>
+                            <li style="background: rgba(0,0,0,0.1); padding: 5px 10px; border-radius: 5px; font-family: monospace; margin-top: 5px;">/start <span id="syncCodeHint">mã_của_bạn</span></li>
+                            <li>Bot sẽ báo kết nối thành công và bắt đầu nhắc nhở bạn.</li>
                         </ol>
                     </div>
                 </div>

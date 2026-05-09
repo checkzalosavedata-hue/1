@@ -31,8 +31,14 @@
     },
     {
         "id": 6,
-        "hanzi": "test",
-        "pinyin": "test",
-        "meaning": "test"
+        "hanzi": "\u662f\u7684",
+        "pinyin": "shi'de",
+        "meaning": "\u0111\u00fang v\u1eady"
+    },
+    {
+        "id": 7,
+        "hanzi": "\u8d8a\u5357",
+        "pinyin": "yue'nan",
+        "meaning": "Vi\u1ec7t nam"
     }
 ]
