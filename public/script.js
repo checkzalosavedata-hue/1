@@ -357,6 +357,7 @@ function setupModal() {
             const res = await fetch(`/api/translate?q=${encodeURIComponent(text)}`);
             if (res.ok) {
                 const data = await res.json();
+                if(data.hanzi) hanziInput.value = data.hanzi; // Tự điền Hanzi nếu nhập tiếng Việt
                 if(data.pinyin) pinyinInput.value = data.pinyin;
                 if(data.meaning) meaningInput.value = data.meaning;
             }
