@@ -373,31 +373,51 @@ async function deleteWord(id) {
     if(res.ok) { words = words.filter(w => w.id !== id); renderDictionary(); renderProgress(); showToast("Đã xóa"); }
 }
 
-// --- QUIZ (Sử dụng TOÀN BỘ từ vựng) ---
+// --- QUIZ (Chỉ kiểm tra những từ đã thuộc) ---
 function generateQuiz() {
     const quizContainer = document.getElementById('quizContainer');
     const quizError = document.getElementById('quizError');
     const optionsContainer = document.getElementById('quizOptions');
-    if (words.length < 4) { quizContainer.classList.add('hidden'); quizError.classList.remove('hidden'); return; }
-    quizContainer.classList.remove('hidden'); quizError.classList.add('hidden');
+    
+    const learnedWords = words.filter(w => w.is_learned);
+    
+    if (learnedWords.length < 4) {
+        quizContainer.classList.add('hidden');
+        quizError.classList.remove('hidden');
+        quizError.querySelector('p').textContent = `Bạn cần ít nhất 4 từ ĐÃ THUỘC để làm trắc nghiệm! (Hiện có: ${learnedWords.length})`;
+        return;
+    }
+    
+    quizContainer.classList.remove('hidden'); 
+    quizError.classList.add('hidden');
     document.getElementById('nextQuizBtn').classList.add('hidden');
     document.getElementById('quizStatus').textContent = '';
-    currentQuizWord = words[Math.floor(Math.random() * words.length)];
+    
+    currentQuizWord = learnedWords[Math.floor(Math.random() * learnedWords.length)];
     document.getElementById('quizHanzi').textContent = currentQuizWord.hanzi;
     document.getElementById('quizPinyin').textContent = currentQuizWord.pinyin;
+    
     let options = [currentQuizWord.meaning];
     while(options.length < 4) {
         let r = words[Math.floor(Math.random() * words.length)].meaning;
         if(!options.includes(r)) options.push(r);
     }
     options.sort(() => Math.random() - 0.5);
+    
     optionsContainer.innerHTML = '';
     options.forEach(opt => {
-        const btn = document.createElement('button'); btn.className = 'quiz-option'; btn.textContent = opt;
+        const btn = document.createElement('button'); 
+        btn.className = 'quiz-option'; 
+        btn.textContent = opt;
         btn.onclick = () => {
             Array.from(optionsContainer.children).forEach(b => b.style.pointerEvents = 'none');
-            if (opt === currentQuizWord.meaning) { btn.classList.add('correct'); document.getElementById('quizStatus').innerHTML = '<span style="color:var(--secondary)">Chính xác!</span>'; }
-            else { btn.classList.add('wrong'); document.getElementById('quizStatus').innerHTML = `<span style="color:var(--primary)">Sai rồi. Đúng là: ${currentQuizWord.meaning}</span>`; }
+            if (opt === currentQuizWord.meaning) { 
+                btn.classList.add('correct'); 
+                document.getElementById('quizStatus').innerHTML = '<span style="color:var(--secondary)">Chính xác!</span>'; 
+            } else { 
+                btn.classList.add('wrong'); 
+                document.getElementById('quizStatus').innerHTML = `<span style="color:var(--primary)">Sai rồi. Đúng là: ${currentQuizWord.meaning}</span>`; 
+            }
             document.getElementById('nextQuizBtn').classList.remove('hidden');
         };
         optionsContainer.appendChild(btn);
