@@ -166,10 +166,49 @@ body {
     display: block;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
 }
+.stat-card {
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+}
+.stat-card h3 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+.stat-card p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Learned Styles */
+.row-learned {
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.02);
+}
+body.dark-mode .row-learned {
+    background: rgba(255, 255, 255, 0.02);
+}
+.learned-btn {
+    background: var(--secondary) !important;
+    color: white !important;
+    font-size: 0.9rem !important;
+    padding: 10px 20px !important;
+}
+.learned-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
 .page-header {
     margin-bottom: 30px;

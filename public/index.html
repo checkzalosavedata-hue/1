@@ -33,6 +33,7 @@
                 <li class="active" data-tab="learn"><i class="fas fa-layer-group"></i> <span>Học Từ</span></li>
                 <li data-tab="dictionary"><i class="fas fa-book"></i> <span>Từ Điển</span></li>
                 <li data-tab="quiz"><i class="fas fa-gamepad"></i> <span>Kiểm Tra</span></li>
+                <li data-tab="progress"><i class="fas fa-chart-line"></i> <span>Tiến Độ</span></li>
                 <li data-tab="settings"><i class="fas fa-cog"></i> <span>Cài Đặt</span></li>
                 <li id="logoutBtn" style="margin-top: auto; color: var(--primary)"><i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span></li>
             </ul>
@@ -64,9 +65,52 @@
                 </div>
 
                 <div class="controls-wrapper">
-                    <button id="prevBtn" class="control-btn prev-btn"><i class="fas fa-arrow-left"></i> Từ trước</button>
-                    <button id="randomBtn" class="control-btn random-btn"><i class="fas fa-random"></i> Ngẫu nhiên</button>
-                    <button id="nextBtn" class="control-btn next-btn">Từ tiếp <i class="fas fa-arrow-right"></i></button>
+                    <button id="prevBtn" class="control-btn prev-btn"><i class="fas fa-arrow-left"></i></button>
+                    <button id="markLearnedBtn" class="control-btn learned-btn" title="Đã thuộc từ này"><i class="fas fa-check-circle"></i> Đã thuộc</button>
+                    <button id="nextBtn" class="control-btn next-btn"><i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <button id="randomBtn" class="btn-secondary" style="font-size: 0.8rem; padding: 5px 15px;"><i class="fas fa-random"></i> Ngẫu nhiên</button>
+                </div>
+            </section>
+
+            <!-- TAB: PROGRESS -->
+            <section id="tab-progress" class="tab-pane">
+                <header class="page-header">
+                    <h2>Tiến Độ Học Tập</h2>
+                    <p>Quản lý các từ bạn đã "tốt nghiệp".</p>
+                </header>
+
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <h3 id="statTotal">0</h3>
+                        <p>Tổng số từ</p>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <h3 id="statLearned">0</h3>
+                        <p>Đã thuộc</p>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <h3 id="statToday">0</h3>
+                        <p>Thêm hôm nay</p>
+                    </div>
+                </div>
+
+                <div class="table-container" style="margin-top: 30px;">
+                    <h3>Hành trình của bạn</h3>
+                    <table class="dict-table">
+                        <thead>
+                            <tr>
+                                <th>Từ vựng</th>
+                                <th>Ngày học</th>
+                                <th>Số lần ôn</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="learnedTableBody">
+                            <!-- JS Render -->
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
