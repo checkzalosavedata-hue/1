@@ -192,34 +192,51 @@ function setupModal() {
     const meaningInput = document.getElementById('newMeaning');
     const loadingEl = document.getElementById('translateLoading');
     const listenBtn = document.getElementById('previewListenBtn');
+    const manualBtn = document.getElementById('manualTranslateBtn');
 
     listenBtn.addEventListener('click', () => {
         const text = hanziInput.value.trim();
         if(text) speakWord(text);
     });
 
+    const triggerTranslate = async () => {
+        const text = hanziInput.value.trim();
+        if(!text) return;
+        
+        loadingEl.style.display = 'inline-block';
+        manualBtn.style.display = 'none';
+        
+        try {
+            const res = await fetch(`/api/translate?q=${encodeURIComponent(text)}`);
+            if (res.ok) {
+                const data = await res.json();
+                if(data.pinyin) pinyinInput.value = data.pinyin;
+                if(data.meaning) meaningInput.value = data.meaning;
+            }
+        } catch(e) { 
+            console.error('Lỗi dịch:', e); 
+            manualBtn.style.display = 'inline-block';
+        } finally { 
+            loadingEl.style.display = 'none'; 
+            manualBtn.style.display = 'inline-block';
+        }
+    };
+
+    manualBtn.addEventListener('click', triggerTranslate);
+
     hanziInput.addEventListener('input', (e) => {
         const text = e.target.value.trim();
         if (!text) {
             listenBtn.style.display = 'none';
+            manualBtn.style.display = 'none';
             pinyinInput.value = '';
             meaningInput.value = '';
             return;
         }
+
         listenBtn.style.display = 'inline-block';
-        loadingEl.style.display = 'inline-block';
         clearTimeout(translateTimeout);
-        translateTimeout = setTimeout(async () => {
-            try {
-                const res = await fetch(`/api/translate?q=${encodeURIComponent(text)}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    if(data.pinyin) pinyinInput.value = data.pinyin;
-                    if(data.meaning) meaningInput.value = data.meaning;
-                }
-            } catch(e) { console.error('Lỗi dịch:', e); }
-            finally { loadingEl.style.display = 'none'; }
-        }, 600);
+        translateTimeout = setTimeout(triggerTranslate, 800);
     });
 }
 
