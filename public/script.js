@@ -16,6 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModal();
     
     flashcard.addEventListener('click', () => flashcard.classList.toggle('flipped'));
+    const flashSpeak = document.getElementById('flashcardSpeakBtn');
+    if(flashSpeak) {
+        flashSpeak.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const learnable = getLearnableWords();
+            const word = words[currentFlashcardIndex];
+            if(word) speakWord(word.hanzi);
+        });
+    }
     document.getElementById('nextBtn').addEventListener('click', () => changeFlashcard(1));
     document.getElementById('prevBtn').addEventListener('click', () => changeFlashcard(-1));
     document.getElementById('markLearnedBtn').addEventListener('click', markAsLearned);
@@ -183,8 +192,15 @@ function setupTheme() {
 }
 
 function speakWord(text) {
-    const utterance = new SpeechSynthesisUtterance(text); utterance.lang = 'zh-CN';
-    speechSynthesis.speak(utterance);
+    if(!text) return;
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=zh-CN&client=tw-ob`;
+    const audio = new Audio(url);
+    audio.play().catch(e => {
+        // Fallback sang SpeechSynthesis nếu bị chặn
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN';
+        speechSynthesis.speak(utterance);
+    });
 }
 
 // --- FLASHCARD ---
@@ -252,7 +268,11 @@ function renderDictionary() {
         const tr = document.createElement('tr');
         tr.className = word.is_learned ? 'row-learned' : '';
         tr.innerHTML = `
-            <td class="hanzi-col">${word.hanzi} <span class="badge-hsk">${word.hsk_level || 'None'}</span></td>
+            <td class="hanzi-col">
+                <button class="btn-icon" onclick="speakWord('${word.hanzi}')"><i class="fas fa-volume-up"></i></button>
+                <strong>${word.hanzi}</strong> 
+                <span class="badge-hsk">${word.hsk_level || 'None'}</span>
+            </td>
             <td>${word.pinyin}</td>
             <td>${word.meaning}</td>
             <td>
