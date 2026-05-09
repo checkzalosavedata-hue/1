@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Học Tiếng Trung Pro</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body class="light-mode">
     <!-- Particles/Animated Background -->
     <div class="bg-animated">
@@ -35,13 +39,14 @@
                 <li data-tab="quiz"><i class="fas fa-gamepad"></i> <span>Kiểm Tra</span></li>
                 <li data-tab="progress"><i class="fas fa-chart-line"></i> <span>Tiến Độ</span></li>
                 <li data-tab="settings"><i class="fas fa-cog"></i> <span>Cài Đặt</span></li>
-                <li id="logoutBtn" style="margin-top: auto; color: var(--primary)"><i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span></li>
+                <li id="logoutBtn" style="margin-top: auto; color: var(--primary)"><i class="fas fa-sign-out-alt"></i>
+                    <span>Đăng xuất</span></li>
             </ul>
         </nav>
 
         <!-- Main Content -->
         <main class="main-content">
-            
+
             <!-- TAB: LEARN -->
             <section id="tab-learn" class="tab-pane active">
                 <header class="page-header">
@@ -61,7 +66,8 @@
                                 <span class="slider"></span>
                                 <span class="label-text">Ẩn Nghĩa</span>
                             </label>
-                            <button class="btn-icon" title="Hướng dẫn chức năng mới" onclick="alert('Mẹo: Bạn có thể nhập TIẾNG VIỆT vào ô Chữ Hán khi thêm từ, hệ thống sẽ tự dịch sang Chữ Hán và Pinyin cho bạn! \n\nNgoài ra, hãy dùng nút gạt để ẩn Pinyin/Nghĩa giúp việc ghi nhớ tốt hơn.')">
+                            <button class="btn-icon" title="Hướng dẫn chức năng mới"
+                                onclick="alert('Mẹo: Bạn có thể nhập TIẾNG VIỆT vào ô Chữ Hán khi thêm từ, hệ thống sẽ tự dịch sang Chữ Hán và Pinyin cho bạn! \n\nNgoài ra, hãy dùng nút gạt để ẩn Pinyin/Nghĩa giúp việc ghi nhớ tốt hơn.')">
                                 <i class="fas fa-question-circle"></i>
                             </button>
                         </div>
@@ -71,7 +77,8 @@
                 <div class="flashcard-wrapper">
                     <div class="flashcard" id="flashcard">
                         <div class="front">
-                            <button id="flashcardSpeakBtn" class="btn-icon speak-btn" title="Phát âm"><i class="fas fa-volume-up"></i></button>
+                            <button id="flashcardSpeakBtn" class="btn-icon speak-btn" title="Phát âm"><i
+                                    class="fas fa-volume-up"></i></button>
                             <h1 id="hanziText" class="chinese-char">你好</h1>
                             <p id="pinyinText" class="pinyin-char">Nǐ hǎo</p>
                             <div class="flip-hint">Nhấn để xem nghĩa</div>
@@ -85,11 +92,13 @@
 
                 <div class="controls-wrapper">
                     <button id="prevBtn" class="control-btn prev-btn"><i class="fas fa-arrow-left"></i></button>
-                    <button id="markLearnedBtn" class="control-btn learned-btn" title="Đã thuộc từ này"><i class="fas fa-check-circle"></i> Đã thuộc</button>
+                    <button id="markLearnedBtn" class="control-btn learned-btn" title="Đã thuộc từ này"><i
+                            class="fas fa-check-circle"></i> Đã thuộc</button>
                     <button id="nextBtn" class="control-btn next-btn"><i class="fas fa-arrow-right"></i></button>
                 </div>
                 <div style="text-align: center; margin-top: 15px;">
-                    <button id="randomBtn" class="btn-secondary" style="font-size: 0.8rem; padding: 5px 15px;"><i class="fas fa-random"></i> Ngẫu nhiên</button>
+                    <button id="randomBtn" class="btn-secondary" style="font-size: 0.8rem; padding: 5px 15px;"><i
+                            class="fas fa-random"></i> Ngẫu nhiên</button>
                 </div>
             </section>
 
@@ -119,7 +128,8 @@
                 </div>
 
                 <div class="table-container" style="margin-top: 30px;">
-                    <div style="padding: 20px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+                    <div
+                        style="padding: 20px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
                         <h3 style="margin: 0;"><i class="fas fa-history"></i> Từ vựng đã thuộc</h3>
                         <span style="font-size: 0.8rem; color: var(--text-light);">Những từ bạn đã "Tốt nghiệp"</span>
                     </div>
@@ -145,13 +155,14 @@
                     <h2>Từ Điển Của Tôi</h2>
                     <p>Quản lý danh sách từ vựng bạn đã thêm.</p>
                 </header>
-                
+
                 <div class="dict-toolbar">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInput" placeholder="Tìm kiếm chữ Hán, pinyin hoặc nghĩa...">
                     </div>
-                    <select id="hskFilter" style="padding: 10px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: white; font-size: 0.9rem;">
+                    <select id="hskFilter"
+                        style="padding: 10px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: white; font-size: 0.9rem;">
                         <option value="All">Tất cả HSK</option>
                         <option value="HSK 1">HSK 1</option>
                         <option value="HSK 2">HSK 2</option>
@@ -161,7 +172,8 @@
                         <option value="HSK 6">HSK 6</option>
                         <option value="None">Khác</option>
                     </select>
-                    <button id="bulkDeleteBtn" class="btn-icon" style="color: var(--primary); padding: 0 10px;" title="Xóa toàn bộ từ đang lọc"><i class="fas fa-trash-sweep"></i> Xóa lọc</button>
+                    <button id="bulkDeleteBtn" class="btn-icon" style="color: var(--primary); padding: 0 10px;"
+                        title="Xóa toàn bộ từ đang lọc"><i class="fas fa-trash-sweep"></i> Xóa lọc</button>
                     <button id="openBulkAddBtn" class="btn-secondary"><i class="fas fa-list"></i> Thêm Nhiều</button>
                     <button id="openAddModalBtn" class="btn-primary"><i class="fas fa-plus"></i> Thêm Một</button>
                 </div>
@@ -193,7 +205,7 @@
                     <h2>Trắc Nghiệm</h2>
                     <p>Kiểm tra trí nhớ của bạn.</p>
                 </header>
-                
+
                 <div id="quizContainer" class="quiz-container">
                     <div class="quiz-question">
                         <h1 id="quizHanzi" class="chinese-char">...</h1>
@@ -203,9 +215,10 @@
                         <!-- JS Render -->
                     </div>
                     <div class="quiz-status" id="quizStatus"></div>
-                    <button id="nextQuizBtn" class="btn-primary hidden">Câu tiếp theo <i class="fas fa-arrow-right"></i></button>
+                    <button id="nextQuizBtn" class="btn-primary hidden">Câu tiếp theo <i
+                            class="fas fa-arrow-right"></i></button>
                 </div>
-                
+
                 <div id="quizError" class="empty-state hidden">
                     <i class="fas fa-exclamation-triangle"></i>
                     <p>Bạn cần ít nhất 4 từ vựng trong từ điển để làm trắc nghiệm!</p>
@@ -221,28 +234,35 @@
 
                 <div class="settings-card glass-panel">
                     <h3><i class="fab fa-telegram"></i> Nhắc Nhở Telegram</h3>
-                    
-                    <div class="sync-code-box" style="background: var(--primary); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center;">
+
+                    <div class="sync-code-box"
+                        style="background: var(--primary); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center;">
                         <p style="font-size: 0.9rem; opacity: 0.9;">Mã kết nối của bạn:</p>
                         <h1 id="syncCodeDisplay" style="font-size: 3rem; letter-spacing: 5px;">------</h1>
                     </div>
-                    
+
                     <div id="tgStatus" class="status-box"></div>
-                    
+
                     <div class="guide-box">
                         <h4>Cách kết nối:</h4>
                         <ol>
                             <li>Vào Telegram, tìm Bot: <strong id="botNameDisplay">Đang tải...</strong></li>
                             <li>Bấm <strong>Start</strong> hoặc nhắn tin theo cú pháp:</li>
-                            <li style="background: rgba(0,0,0,0.1); padding: 5px 10px; border-radius: 5px; font-family: monospace; margin-top: 5px;">/start <span id="syncCodeHint">mã_của_bạn</span></li>
+                            <li
+                                style="background: rgba(0,0,0,0.1); padding: 5px 10px; border-radius: 5px; font-family: monospace; margin-top: 5px;">
+                                /start <span id="syncCodeHint">mã_của_bạn</span></li>
                             <li>Bot sẽ báo kết nối thành công và bắt đầu nhắc nhở bạn.</li>
                         </ol>
                     </div>
-                <div class="settings-card glass-panel" style="margin-top: 20px; border: 1px solid rgba(231, 76, 60, 0.3);">
-                    <h3 style="color: var(--primary);"><i class="fas fa-exclamation-triangle"></i> Vùng Nguy Hiểm</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 15px;">Hành động này sẽ xóa sạch toàn bộ từ vựng và cấu hình của riêng bạn. Không thể hoàn tác.</p>
-                    <button id="resetAccountBtn" class="btn-primary" style="background: var(--primary);"><i class="fas fa-trash-alt"></i> Reset Toàn Bộ Tài Khoản</button>
-                </div>
+                    <div class="settings-card glass-panel"
+                        style="margin-top: 20px; border: 1px solid rgba(231, 76, 60, 0.3);">
+                        <h3 style="color: var(--primary);"><i class="fas fa-exclamation-triangle"></i> Vùng Nguy Hiểm
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 15px;">Hành động này sẽ
+                            xóa sạch toàn bộ từ vựng và cấu hình của riêng bạn. Không thể hoàn tác.</p>
+                        <button id="resetAccountBtn" class="btn-primary" style="background: var(--primary);"><i
+                                class="fas fa-trash-alt"></i> Reset Toàn Bộ Tài Khoản</button>
+                    </div>
             </section>
 
         </main>
@@ -257,20 +277,27 @@
             </div>
             <form id="addWordForm" class="modal-form">
                 <div class="input-group">
-                    <label>Chữ Hán <button type="button" class="btn-icon listen" id="previewListenBtn" style="display:none; padding:0 10px;" title="Nghe thử"><i class="fas fa-volume-up"></i></button></label>
-                    <input type="text" id="newHanzi" placeholder="Nhập tiếng Trung vào đây..." required autocomplete="off">
+                    <label>Chữ Hán <button type="button" class="btn-icon listen" id="previewListenBtn"
+                            style="display:none; padding:0 10px;" title="Nghe thử"><i
+                                class="fas fa-volume-up"></i></button></label>
+                    <input type="text" id="newHanzi" placeholder="Nhập tiếng Trung hoặc Tiếng Việt vào đây..." required
+                        autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label>Pinyin <span id="translateLoading" style="display:none; font-size:0.8rem; color:var(--primary);"><i class="fas fa-spinner fa-spin"></i> Đang tự dịch...</span></label>
+                    <label>Pinyin <span id="translateLoading"
+                            style="display:none; font-size:0.8rem; color:var(--primary);"><i
+                                class="fas fa-spinner fa-spin"></i> Đang tự dịch...</span></label>
                     <input type="text" id="newPinyin" placeholder="Sẽ tự động điền" autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label>Nghĩa Tiếng Việt <button type="button" id="manualTranslateBtn" class="btn-icon" style="font-size: 0.8rem; color: var(--primary); display: none;">(Dịch lại)</button></label>
+                    <label>Nghĩa Tiếng Việt <button type="button" id="manualTranslateBtn" class="btn-icon"
+                            style="font-size: 0.8rem; color: var(--primary); display: none;">(Dịch lại)</button></label>
                     <input type="text" id="newMeaning" placeholder="Sẽ tự động điền" autocomplete="off">
                 </div>
                 <div class="input-group">
                     <label>Cấp độ HSK</label>
-                    <select id="newHskLevel" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: white;">
+                    <select id="newHskLevel"
+                        style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); background: white;">
                         <option value="HSK 1" selected>HSK 1</option>
                         <option value="HSK 2">HSK 2</option>
                         <option value="HSK 3">HSK 3</option>
@@ -280,7 +307,8 @@
                         <option value="None">Khác</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-primary full-width"><i class="fas fa-check"></i> Lưu vào Từ Điển</button>
+                <button type="submit" class="btn-primary full-width"><i class="fas fa-check"></i> Lưu vào Từ
+                    Điển</button>
             </form>
         </div>
     </div>
@@ -293,9 +321,10 @@
                 <button id="closeBulkAddBtn" class="close-btn"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
-                <p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--text-light);">Nhập danh sách chữ Hán (mỗi dòng một từ):</p>
-                <textarea id="bulkHanziArea" rows="10" style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; resize: vertical;" placeholder="Ví dụ:&#10;你好&#10;谢谢&#10;再见"></textarea>
-                
+                <p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--text-light);">Nhập danh sách chữ Hán hoặc Tiếng Việt (mỗi dòng một từ):</p>
+                <textarea id="bulkHanziArea" rows="10"
+                    style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); font-family: 'Noto Sans SC', sans-serif; font-size: 1.2rem; resize: vertical;"
+                    placeholder="Ví dụ:&#10;你好&#10;Cảm ơn&#10;再见"></textarea>
                 <div style="margin-top: 20px; display: flex; gap: 10px; align-items: center;">
                     <label>Cấp độ HSK chung:</label>
                     <select id="bulkHskLevel" style="padding: 8px; border-radius: 8px;">
@@ -306,7 +335,8 @@
                         <option value="HSK 5">HSK 5</option>
                         <option value="HSK 6">HSK 6</option>
                     </select>
-                    <button id="previewBulkBtn" class="btn-primary" style="margin-left: auto;"><i class="fas fa-magic"></i> Bắt đầu dịch</button>
+                    <button id="previewBulkBtn" class="btn-primary" style="margin-left: auto;"><i
+                            class="fas fa-magic"></i> Bắt đầu dịch</button>
                 </div>
 
                 <div id="bulkPreviewArea" style="margin-top: 25px; display: none;">
@@ -323,7 +353,8 @@
                             <tbody id="bulkPreviewTableBody"></tbody>
                         </table>
                     </div>
-                    <button id="saveBulkBtn" class="btn-primary full-width" style="margin-top: 20px;"><i class="fas fa-save"></i> Lưu Tất Cả Vào Từ Điển</button>
+                    <button id="saveBulkBtn" class="btn-primary full-width" style="margin-top: 20px;"><i
+                            class="fas fa-save"></i> Lưu Tất Cả Vào Từ Điển</button>
                 </div>
             </div>
         </div>
@@ -334,4 +365,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
