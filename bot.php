@@ -1,11 +1,17 @@
 <?php
-$telegramToken = 'THAY_BANG_TOKEN_BOT_CUA_BAN';
 $wordsFile = __DIR__ . '/data/words.json';
 $configFile = __DIR__ . '/data/config.json';
 
+function getToken() {
+    global $configFile;
+    $config = file_exists($configFile) ? json_decode(file_get_contents($configFile), true) : [];
+    return $config['telegramToken'] ?? '';
+}
+
 function sendMessage($chatId, $text) {
-    global $telegramToken;
-    $url = "https://api.telegram.org/bot$telegramToken/sendMessage";
+    $token = getToken();
+    if (empty($token)) return;
+    $url = "https://api.telegram.org/bot$token/sendMessage";
     $data = ['chat_id' => $chatId, 'text' => $text, 'parse_mode' => 'Markdown'];
     $options = [
         'http' => [
@@ -19,8 +25,9 @@ function sendMessage($chatId, $text) {
 }
 
 function getUpdates($offset) {
-    global $telegramToken;
-    $url = "https://api.telegram.org/bot$telegramToken/getUpdates?offset=$offset&timeout=30";
+    $token = getToken();
+    if (empty($token)) return [];
+    $url = "https://api.telegram.org/bot$token/getUpdates?offset=$offset&timeout=30";
     $response = @file_get_contents($url);
     if ($response) {
         $data = json_decode($response, true);
@@ -30,15 +37,13 @@ function getUpdates($offset) {
 }
 
 $lastUpdateId = 0;
-$lastRemindedDay = ''; // Bắt đầu trống để có thể nhắc ngay nếu đến giờ
+$lastRemindedDay = ''; 
 
-echo "Telegram Bot (PHP) đang chạy...\n";
-if ($telegramToken === 'THAY_BANG_TOKEN_BOT_CUA_BAN') {
-    echo "⚠️ Vui lòng cập nhật TELEGRAM_TOKEN trong bot.php để sử dụng bot.\n";
-}
+echo "Telegram Bot (PHP) đang chạy chờ Token từ Web...\n";
 
 while (true) {
-    if ($telegramToken !== 'THAY_BANG_TOKEN_BOT_CUA_BAN') {
+    $token = getToken();
+    if (!empty($token) && $token !== 'THAY_BANG_TOKEN_BOT_CUA_BAN') {
         // 1. Nhận tin nhắn mới
         $updates = getUpdates($lastUpdateId + 1);
         foreach ($updates as $update) {
@@ -51,13 +56,24 @@ while (true) {
                     $config = file_exists($configFile) ? json_decode(file_get_contents($configFile), true) : [];
                     $config['chatId'] = $chatId;
                     file_put_contents($configFile, json_encode($config, JSON_PRETTY_PRINT));
-                    sendMessage($chatId, "Tuyệt vời! Tôi sẽ gửi lời nhắc học từ vựng cho bạn mỗi ngày. Gõ /hoc để nhận một từ ngay bây giờ.");
+                    sendMessage($chatId, "Tuyệt vời! Tôi sẽ gửi lời nhắc học từ vựng cho bạn mỗi ngày.\nCác lệnh hỗ trợ:\n/hoc - Nhận 1 từ ngẫu nhiên\n/quiz - Làm bài trắc nghiệm");
                 } else if ($text === '/hoc') {
                     $words = file_exists($wordsFile) ? json_decode(file_get_contents($wordsFile), true) : [];
                     if (count($words) > 0) {
                         $word = $words[array_rand($words)];
                         $msg = "📚 *Từ vựng hôm nay:*\n\n🇨🇳 Chữ Hán: {$word['hanzi']}\n🔊 Pinyin: {$word['pinyin']}\n🇻🇳 Nghĩa: {$word['meaning']}\n\nHãy vào web để ôn tập thêm nhé!";
                         sendMessage($chatId, $msg);
+                    } else {
+                        sendMessage($chatId, "Bạn chưa thêm từ vựng nào vào danh sách!");
+                    }
+                } else if ($text === '/quiz') {
+                    $words = file_exists($wordsFile) ? json_decode(file_get_contents($wordsFile), true) : [];
+                    if (count($words) >= 4) {
+                        $word = $words[array_rand($words)];
+                        $msg = "🧠 *Câu hỏi Quiz:*\n\nTừ này có nghĩa là gì?\n🇨🇳 *{$word['hanzi']}* ({$word['pinyin']})\n\n(Chức năng trả lời trực tiếp trên Telegram sẽ được cập nhật sau. Hãy tự nhẩm nghĩa trong đầu nhé!)";
+                        sendMessage($chatId, $msg);
+                    } else {
+                        sendMessage($chatId, "Bạn cần thêm ít nhất 4 từ vựng để chơi Quiz!");
                     }
                 }
             }

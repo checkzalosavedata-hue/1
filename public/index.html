@@ -3,67 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Từ Vựng Tiếng Trung</title>
+    <title>Học Tiếng Trung Pro</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <div class="background-circles">
-        <div class="circle circle-1"></div>
-        <div class="circle circle-2"></div>
-        <div class="circle circle-3"></div>
+<body class="light-mode">
+    <!-- Particles/Animated Background -->
+    <div class="bg-animated">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
     </div>
 
-    <main class="container">
-        <header>
-            <h1>Học Tiếng Trung Mỗi Ngày 🇨🇳</h1>
-            <p>Nhấp vào thẻ để xem nghĩa. Bấm "Từ Tiếp Theo" để học từ mới.</p>
-        </header>
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-btn" title="Chuyển chế độ Sáng/Tối">
+        <i class="fas fa-moon"></i>
+    </button>
 
-        <!-- Khu vực hiển thị Flashcard -->
-        <section class="flashcard-container">
-            <div class="flashcard" id="flashcard">
-                <div class="front">
-                    <h2 id="hanzi" class="chinese-text">加载中...</h2>
-                    <p id="pinyin" class="pinyin-text">...</p>
-                </div>
-                <div class="back">
-                    <h3 id="meaning" class="meaning-text">...</h3>
-                </div>
+    <div class="app-container glass-effect">
+        <!-- Sidebar / Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-yin-yang"></i>
+                <span>HanziPro</span>
             </div>
+            <ul class="nav-links">
+                <li class="active" data-tab="learn"><i class="fas fa-layer-group"></i> <span>Học Từ</span></li>
+                <li data-tab="dictionary"><i class="fas fa-book"></i> <span>Từ Điển</span></li>
+                <li data-tab="quiz"><i class="fas fa-gamepad"></i> <span>Kiểm Tra</span></li>
+                <li data-tab="settings"><i class="fas fa-cog"></i> <span>Cài Đặt</span></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
             
-            <div class="controls">
-                <button id="prevBtn" class="btn btn-secondary">❮ Trước</button>
-                <button id="nextBtn" class="btn btn-primary">Tiếp theo ❯</button>
-            </div>
-        </section>
+            <!-- TAB: LEARN -->
+            <section id="tab-learn" class="tab-pane active">
+                <header class="page-header">
+                    <h2>Học Từ Vựng</h2>
+                    <p>Nhấn vào thẻ để lật. Bấm biểu tượng loa để nghe phát âm.</p>
+                </header>
 
-        <!-- Thêm từ mới -->
-        <section class="add-word-section glass-panel">
-            <h2>➕ Thêm từ vựng mới</h2>
-            <form id="addWordForm">
-                <div class="form-group">
-                    <input type="text" id="newHanzi" placeholder="Chữ Hán (VD: 爱)" required>
-                    <input type="text" id="newPinyin" placeholder="Pinyin (VD: ài)" required>
+                <div class="flashcard-wrapper">
+                    <div class="flashcard" id="flashcard">
+                        <div class="front">
+                            <div class="card-content">
+                                <h1 id="hanziText" class="chinese-char">加载</h1>
+                                <p id="pinyinText" class="pinyin-char">jiā zài</p>
+                            </div>
+                            <button id="speakBtn" class="speak-btn" title="Nghe phát âm" onclick="event.stopPropagation(); playAudio()"><i class="fas fa-volume-up"></i></button>
+                        </div>
+                        <div class="back">
+                            <h2 id="meaningText" class="meaning-char">Đang tải...</h2>
+                        </div>
+                    </div>
                 </div>
-                <input type="text" id="newMeaning" placeholder="Nghĩa tiếng Việt (VD: Yêu)" required>
-                <button type="submit" class="btn btn-submit">Lưu từ vựng</button>
-            </form>
-            <p id="addMessage" class="message"></p>
-        </section>
 
-        <!-- Cài đặt Telegram -->
-        <section class="telegram-section glass-panel">
-            <h2>🤖 Nhắc nhở qua Telegram</h2>
-            <p>Để nhận nhắc nhở mỗi ngày lúc 8:00 sáng:</p>
-            <ol>
-                <li>Mở Telegram và tìm kiếm bot của bạn.</li>
-                <li>Bấm <strong>Start</strong> hoặc gõ lệnh <code>/start</code>.</li>
-                <li>Bot sẽ tự động ghi nhớ bạn và gửi từ vựng mỗi ngày!</li>
-            </ol>
-            <p class="note">*Lưu ý: Yêu cầu quản trị viên cấu hình mã Token cho Bot trong server.</p>
-        </section>
-    </main>
+                <div class="controls-wrapper">
+                    <button id="prevBtn" class="control-btn prev-btn"><i class="fas fa-arrow-left"></i> Từ trước</button>
+                    <button id="randomBtn" class="control-btn random-btn"><i class="fas fa-random"></i> Ngẫu nhiên</button>
+                    <button id="nextBtn" class="control-btn next-btn">Từ tiếp <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- TAB: DICTIONARY -->
+            <section id="tab-dictionary" class="tab-pane">
+                <header class="page-header">
+                    <h2>Từ Điển Của Tôi</h2>
+                    <p>Quản lý danh sách từ vựng bạn đã thêm.</p>
+                </header>
+                
+                <div class="dict-toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm chữ Hán, pinyin hoặc nghĩa...">
+                    </div>
+                    <button id="openAddModalBtn" class="btn-primary"><i class="fas fa-plus"></i> Thêm Từ</button>
+                </div>
+
+                <div class="table-container">
+                    <table class="dict-table">
+                        <thead>
+                            <tr>
+                                <th>Chữ Hán</th>
+                                <th>Pinyin</th>
+                                <th>Nghĩa</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dictTableBody">
+                            <!-- JS Render -->
+                        </tbody>
+                    </table>
+                    <div id="emptyDict" class="empty-state hidden">
+                        <i class="fas fa-box-open"></i>
+                        <p>Chưa có từ vựng nào. Hãy thêm từ mới nhé!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: QUIZ -->
+            <section id="tab-quiz" class="tab-pane">
+                <header class="page-header">
+                    <h2>Trắc Nghiệm</h2>
+                    <p>Kiểm tra trí nhớ của bạn.</p>
+                </header>
+                
+                <div id="quizContainer" class="quiz-container">
+                    <div class="quiz-question">
+                        <h1 id="quizHanzi" class="chinese-char">...</h1>
+                        <p id="quizPinyin">...</p>
+                    </div>
+                    <div class="quiz-options" id="quizOptions">
+                        <!-- JS Render -->
+                    </div>
+                    <div class="quiz-status" id="quizStatus"></div>
+                    <button id="nextQuizBtn" class="btn-primary hidden">Câu tiếp theo <i class="fas fa-arrow-right"></i></button>
+                </div>
+                
+                <div id="quizError" class="empty-state hidden">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Bạn cần ít nhất 4 từ vựng trong từ điển để làm trắc nghiệm!</p>
+                </div>
+            </section>
+
+            <!-- TAB: SETTINGS -->
+            <section id="tab-settings" class="tab-pane">
+                <header class="page-header">
+                    <h2>Cài Đặt Hệ Thống</h2>
+                    <p>Cấu hình Bot Telegram và tùy chỉnh.</p>
+                </header>
+
+                <div class="settings-card glass-panel">
+                    <h3><i class="fab fa-telegram"></i> Nhắc Nhở Telegram</h3>
+                    <p class="settings-desc">Bot sẽ tự động gửi 1 từ vựng vào 8:00 sáng mỗi ngày.</p>
+                    
+                    <form id="telegramForm" class="settings-form">
+                        <div class="input-group">
+                            <label for="tgToken">Bot Token (Lấy từ @BotFather)</label>
+                            <input type="text" id="tgToken" placeholder="Ví dụ: 123456789:ABCDefGhi...">
+                        </div>
+                        <button type="submit" class="btn-primary" id="saveTgBtn"><i class="fas fa-save"></i> Lưu Token</button>
+                    </form>
+                    
+                    <div id="tgStatus" class="status-box"></div>
+                    
+                    <div class="guide-box">
+                        <h4>Cách thiết lập:</h4>
+                        <ol>
+                            <li>Tạo bot từ <strong>@BotFather</strong> trên Telegram.</li>
+                            <li>Copy Token dán vào ô trên và Lưu.</li>
+                            <li>Vào Telegram, tìm bot của bạn và nhắn <code>/start</code>.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Add Word Modal -->
+    <div id="addWordModal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h3>Thêm Từ Vựng Mới</h3>
+                <button id="closeModalBtn" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="addWordForm" class="modal-form">
+                <div class="input-group">
+                    <label>Chữ Hán</label>
+                    <input type="text" id="newHanzi" placeholder="Ví dụ: 爱" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Pinyin</label>
+                    <input type="text" id="newPinyin" placeholder="Ví dụ: ài" required autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Nghĩa Tiếng Việt</label>
+                    <input type="text" id="newMeaning" placeholder="Ví dụ: Yêu" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn-primary full-width"><i class="fas fa-check"></i> Lưu vào Từ Điển</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
 
     <script src="script.js"></script>
 </body>
