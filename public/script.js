@@ -216,13 +216,21 @@ function speakWord(text) {
 
 // --- FLASHCARD ---
 function setEmptyFlashcard() {
-    hanziText.textContent = "N/A"; pinyinText.textContent = "-";
-    meaningText.textContent = "Hôm nay bạn đã học hết từ mới!";
+    hanziText.innerHTML = '<i class="fas fa-check-circle" style="color: var(--secondary); font-size: 5rem;"></i>';
+    pinyinText.textContent = "Hoàn thành!";
+    meaningText.innerHTML = '<div style="text-align:center">Tuyệt vời! Bạn đã học hết toàn bộ từ vựng hiện có.<br><br><button class="btn-primary" onclick="document.querySelector(\'[data-tab=dictionary]\').click()"><i class="fas fa-plus"></i> Thêm từ mới ngay</button></div>';
+    const flashSpeak = document.getElementById('flashcardSpeakBtn');
+    if(flashSpeak) flashSpeak.style.display = 'none';
 }
 
 function displayFlashcard() {
     const learnable = getLearnableWords();
+    const flashSpeak = document.getElementById('flashcardSpeakBtn');
+    
     if (learnable.length === 0) return setEmptyFlashcard();
+    
+    if(flashSpeak) flashSpeak.style.display = 'flex';
+    
     if (currentFlashcardIndex < 0 || currentFlashcardIndex >= words.length || words[currentFlashcardIndex].is_learned) {
         currentFlashcardIndex = words.indexOf(learnable[0]);
     }
