@@ -82,22 +82,28 @@
                 </header>
 
                 <div class="stats-grid">
-                    <div class="stat-card glass-panel">
+                    <div class="stat-card glass-panel total">
+                        <i class="fas fa-book-open stat-icon"></i>
                         <h3 id="statTotal">0</h3>
                         <p>Tổng số từ</p>
                     </div>
-                    <div class="stat-card glass-panel">
+                    <div class="stat-card glass-panel learned">
+                        <i class="fas fa-graduation-cap stat-icon"></i>
                         <h3 id="statLearned">0</h3>
-                        <p>Đã thuộc</p>
+                        <p>Đã tốt nghiệp</p>
                     </div>
-                    <div class="stat-card glass-panel">
+                    <div class="stat-card glass-panel today">
+                        <i class="fas fa-calendar-day stat-icon"></i>
                         <h3 id="statToday">0</h3>
-                        <p>Thêm hôm nay</p>
+                        <p>Học hôm nay</p>
                     </div>
                 </div>
 
                 <div class="table-container" style="margin-top: 30px;">
-                    <h3>Hành trình của bạn</h3>
+                    <div style="padding: 20px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0;"><i class="fas fa-history"></i> Từ vựng đã thuộc</h3>
+                        <span style="font-size: 0.8rem; color: var(--text-light);">Những từ bạn đã "Tốt nghiệp"</span>
+                    </div>
                     <table class="dict-table">
                         <thead>
                             <tr>
