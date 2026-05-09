@@ -108,7 +108,9 @@ function setupBulkModal() {
             try {
                 const res = await fetch(`/api/translate?q=${encodeURIComponent(hanzi)}`);
                 const data = res.ok ? await res.json() : { pinyin: '', meaning: '' };
-                results.push({ hanzi, pinyin: data.pinyin, meaning: data.meaning });
+                // Nếu API trả về hanzi mới (dịch từ Việt -> Trung), dùng nó. Nếu không dùng hanzi gốc.
+                const finalHanzi = data.hanzi || hanzi;
+                results.push({ hanzi: finalHanzi, pinyin: data.pinyin, meaning: data.meaning });
             } catch(e) { results.push({ hanzi, pinyin: '', meaning: '' }); }
         }
         
