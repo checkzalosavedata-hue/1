@@ -703,5 +703,26 @@ body.dark-mode .guide-box { background: rgba(255,255,255,0.05); }
     .stat-card { padding: 15px; }
     .stat-card h3 { font-size: 1.5rem; }
 
-    .modal-content { width: 92%; padding: 20px; border-radius: 25px; }
+    .modal-content { 
+        width: 95%; 
+        max-height: 90vh; 
+        padding: 20px; 
+        border-radius: 25px; 
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-body {
+        overflow-y: auto;
+        flex: 1;
+        padding-right: 5px;
+    }
+    
+    /* Thu nhỏ input preview trên mobile để tránh dài quá */
+    #bulkPreviewTableBody td {
+        padding: 5px 0 !important;
+    }
+    .bulk-input {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
 }
